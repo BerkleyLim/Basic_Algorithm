@@ -18,7 +18,7 @@ package author.hyun.sik.lim.add.array;
  * - n개의 수로 된 배열 S에 있는 모든 수를 더하기!
  * - 양의 정수 n, 배열 S(첨자는 1 ~ n)
  * - S에 있는 수의 합, sum
- */
+ */ 
 
 public class SumArrayAlgorithm {
     int sum (int n, final int S[]) {
