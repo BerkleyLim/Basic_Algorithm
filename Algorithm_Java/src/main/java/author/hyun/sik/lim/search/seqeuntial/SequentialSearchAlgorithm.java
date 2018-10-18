@@ -35,4 +35,7 @@ public class SequentialSearchAlgorithm {
         if (location > n)
             location = 0;
     }
+    
+    // 문제 1) n개의 수로 구성된 리스트(또는 배열)에서 가장 큰 수를 찾는 알고리즘
+    
 }
