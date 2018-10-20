@@ -32,13 +32,34 @@ arr1, arr2는 길이 n인 정수 배열로 주어진다.
 public class KakaoAlgorithmNo1 {
     // 데이터 정의
     private int n; // 한변의 길이
+    private String[] result;
     
     // 데이터 환경 설정
     public void setVariable(int n, int[] arr1, int[] arr2) {
         this.n = n;
+        result = new String[n];
         
+        int[] arrOrResult = new int[n];
         
+        for (int i = 0; i < n; i++) {
+            arrOrResult[i] = (arr1[i] | arr2[i]);
+            
+            result[i] = "";
+            for (int z = n-1; z >= 0; z--) {
+                
+                if(((arrOrResult[i] >> z) % 2) == 1) {
+                    result[i] += "#";
+                } else {
+                    result[i] += " ";
+                }
+                
+            }
+        }
         
+    }
+    
+    public String[] Result() {
+        return result;
     }
     
     // 테스트
@@ -61,8 +82,11 @@ public class KakaoAlgorithmNo1 {
             arr2[i] = sc.nextInt();
         }
         
+        test.setVariable(n, arr1, arr2);
         
-        
+        for(String result : test.result) {
+            System.out.println(result);
+        }
     }
     
     
