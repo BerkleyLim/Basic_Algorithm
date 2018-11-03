@@ -92,6 +92,3 @@ dkms.conf
 *.unsuccessfulbuild
 *.vcxproj
 *.manifest
-
-**/경사로.cpp
-**/스타트와링크.cpp
