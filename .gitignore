@@ -90,6 +90,8 @@ dkms.conf
 *.sln
 *.suo
 *.unsuccessfulbuild
+*.vcxproj
+*.manifest
 
-경사로.cpp
-스타트와링크.cpp
+**/경사로.cpp
+**/스타트와링크.cpp
