@@ -75,3 +75,21 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+# VC++ 관련 내용들
+*.ipch
+*.manifest.*
+*.res
+*.lastbuildstate
+*.vcxproj.*
+*.tlog
+*.vsp
+*.idc
+*.sdf
+*.sln
+*.suo
+*.unsuccessfulbuild
+
+경사로.cpp
+스타트와링크.cpp
