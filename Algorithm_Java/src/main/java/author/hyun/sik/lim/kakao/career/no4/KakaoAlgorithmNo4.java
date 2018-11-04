@@ -55,11 +55,15 @@ n   t   m   timetable                                               answer
 
 public class KakaoAlgorithmNo4 {
     private int destinationTime; // 도착시간!
+    private static final int HOUR = 60; // 60분 = 1시간, 즉 1시간을 표현하는 용도
     
     // 콘이 도착을 해야하는 시간의 대해 논리적으로 설정!
     public void connArriveTime(int n, int t, int m, List<Integer> timetable) {
         // 버스 도착시간은 기본으로 09:00으로 설정한다!, 00:00 = 시간 값 : 0 = 1440
-        int startTime = 540; // 09:00 기준
+        int startTime = 9 * HOUR; // 09:00 기준
+        
+        // 1) n = 운행횟수, 2) t = 배차간격, 3) m = 좌석량 등 고려하여 작성
+        
         
     }
     
@@ -92,7 +96,7 @@ public class KakaoAlgorithmNo4 {
             
             // 대기열 시간을 입력하고 나서 바로 숫자로 대입하여 넣는다.
             for (int i = 0; i < arr.length; i++) {
-                int time = Integer.parseInt(arr[i].split(":")[0]) * 60 
+                int time = Integer.parseInt(arr[i].split(":")[0]) * HOUR 
                         + Integer.parseInt(arr[i].split(":")[1]);
                 timetable.add(time);
                 System.out.println(timetable.get(i));
@@ -103,7 +107,7 @@ public class KakaoAlgorithmNo4 {
             // 결과 값 출력
             System.out.print("#" + T + " : ");
             System.out.printf("%02d:%02d\n",
-                    result.resultTime() / 60, result.resultTime() % 60);
+                    result.resultTime() / HOUR, result.resultTime() % HOUR);
         }
     }
 }
