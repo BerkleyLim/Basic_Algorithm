@@ -10,7 +10,11 @@ package author.hyun.sik.lim.queue.ex1;
  * */
 
 public class QueueTest {
+    private Object data; // 이것은 데이터의 관련된 큐를 생성한다. (Object로 생성한 것은 어느 자료형을 넣어야 할지 결정)
     
+    public void insert() {
+        
+    }
     
     // main은 테스트 용도로 쓴다!!
     public static void main(String[] args) {
