@@ -7,17 +7,14 @@ package author.hyun.sik.lim.queue.ex1;
  * C언어 스타일로 알고리즘을 만들어 보고 나서 다시 적용합니다. 
  * (API로 호출해서 사용하는 것보다 직접 자기자신이 API를 많이 만들면 실행시간을 줄일 수 있다.)
  * 
+ * 자세한건 Queue 참조
+ * 
  * */
 
 public class QueueTest {
-    private Object data; // 이것은 데이터의 관련된 큐를 생성한다. (Object로 생성한 것은 어느 자료형을 넣어야 할지 결정)
-    
-    public void insert() {
-        
-    }
-    
     // main은 테스트 용도로 쓴다!!
     public static void main(String[] args) {
+        Queue<Integer> queue = new Queue();
         
     }
 }
