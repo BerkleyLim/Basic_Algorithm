@@ -110,13 +110,19 @@ public class Q14499 {
     public static int getDiceUp(int direction, int N, int M, int index) {
         int temp;
 
-        // 밑면 설정
-        if (map[y][x] == 0) {
-            map[y][x] = dice[5];
-        }
+//        // 밑면 설정
+//        if (map[y][x] == 0) {
+//            map[y][x] = dice[5];
+//        } else if (map[y][x] != 0 && dice[5] !=0 ) {
+//            map[y][x] = 0;
+//        } else {
+//            dice[5] = map[y][x];
+//        }
         
         if (dice[5] == 0 || map[y][x] != 0) {
             dice[5] = map[y][x];
+        } else {
+            map[y][x] = 0;
         }
         
         
