@@ -82,12 +82,12 @@ public class Q14499 {
                 // 결과값 도출
                 resultValue[index] = getDiceUp(direction, N, M, index+1);
                 
-                
-                System.out.print((index + 1)  + "번째 주사위 : ");
-                for (int dices : dice) {
-                    System.out.print(dices + "  ");
-                }
-                System.out.println();
+                // 테스트용 (알고리즘 결과값 도출용도)
+//                System.out.print((index + 1)  + "번째 주사위 : ");
+//                for (int dices : dice) {
+//                    System.out.print(dices + "  ");
+//                }
+//                System.out.println();
                 
                 System.out.println(resultValue[index]);
                 index++;
@@ -110,27 +110,24 @@ public class Q14499 {
     public static int getDiceUp(int direction, int N, int M, int index) {
         int temp;
 
-//        // 밑면 설정
-//        if (map[y][x] == 0) {
-//            map[y][x] = dice[5];
-//        } else if (map[y][x] != 0 && dice[5] !=0 ) {
-//            map[y][x] = 0;
-//        } else {
-//            dice[5] = map[y][x];
-//        }
-        
-        if (dice[5] == 0 || map[y][x] != 0) {
-            dice[5] = map[y][x];
+        // 밑면 설정
+        if (map[y][x] == 0) {
+            // 지도에 있는 칸이 0일 때 주사위 밑변에 대입한다.
+            map[y][x] = dice[5];
         } else {
+            // 지도에 있는 칸이 0이 아닐 때 지도에 쓰여져 있는 칸에 주사위를 대입하고,
+            // 다음으로 주사위 위치에 있는 칸에 0으로 넣는다.
+            dice[5] = map[y][x];
             map[y][x] = 0;
         }
         
+        // 다음은 테스트 용도
+//        System.out.print(index + "번째 초기 주사위 값 : ");
+//        for (int cho : dice) {
+//            System.out.print(cho + " ");
+//        }
+//        System.out.println();
         
-        System.out.print(index + "번째 초기 주사위 값 : ");
-        for (int cho : dice) {
-            System.out.print(cho + " ");
-        }
-        System.out.println();
         switch(direction) {
         // 동쪽일때 
         case 1:
