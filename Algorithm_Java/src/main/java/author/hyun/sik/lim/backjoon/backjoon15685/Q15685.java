@@ -1,14 +1,13 @@
 package author.hyun.sik.lim.backjoon.backjoon15685;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 // https://www.acmicpc.net/problem/15685
 // 드래곤 커브
 public class Q15685 {
     // 움직임 방향! (생각을 좀 더 깊게 해볼껄!) (y 부분을 감소를 증가로, 증가를 감소로 바꿔보기)
-    final static int[] dx = {1, 0, -1, 0, 1};
-    final static int[] dy = {0, -1, 0, 1, 1};
+    final static int[] dx = {1, 0, -1, 0};
+    final static int[] dy = {0, -1, 0, 1};
     
     // map : 해당 좌표를 지나갈때
     static boolean[][] map;
@@ -67,26 +66,45 @@ public class Q15685 {
     // 드래곤 커브 이동 관련 알고리즘 (재귀 함수, 피보나치 수열!)
     public static void curve(int x, int y, int d, int g) {
         // 방향 설정
-        ArrayList<Integer> direction = new ArrayList<>();
-        direction.add(d);
+        int[] dir = new int[(int) Math.pow(2, g)];
+        dir[0] = d;
+        
+        //ArrayList<Integer> direction = new ArrayList<>();
+        //direction.add(d);
+        
+        int f = 1;
         for(int j=0; j<g; j++){
             //이동해야할 방향을 설정한다.
-            int size = direction.size();
+            int size = f;
+            
+            //int size = direction.size();
             for(int k= size-1; k>=0; k--){
-                int n = direction.get(k);
+                int n = dir[k];
+                
+                //int n = direction.get(k);
                 if(n==3){
-                    direction.add(0);
+                    dir[f] = 0;
+                    
+                    //direction.add(0);
                 } else {
-                    direction.add(n+1);
+                    dir[f] = n + 1;
+                    
+                    //direction.add(n+1);
                 }
+                f++;
             }
+            
         }
         
         // 여기는 그림 그리기
         map[y][x] = true;
-        for(int i=0; i < direction.size(); i++){
-            y = y+dy[direction.get(i)];
-            x = x+dx[direction.get(i)];
+        for(int i=0; i < dir.length/*direction.size()*/; i++){
+            y = y+dy[dir[i]];
+            x = x+dx[dir[i]];
+            
+            //y = y+dy[direction.get(i)];
+            //x = x+dx[direction.get(i)];
+            
             map[y][x] = true;
         }
         
