@@ -9,6 +9,7 @@ import java.util.Scanner;
 // 1줄 : 테케 번호
 // 2줄 : 찾을 문자열
 // 3줄 : 검색할 문장이 주어짐
+// 무어 알고리즘 풀이도 해보기
 public class Solution {
     
     public static void main(String[] args) throws Exception {
