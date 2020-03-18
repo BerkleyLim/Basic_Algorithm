@@ -79,11 +79,29 @@ public class Solution {
         
     }
     
+    public static void bfs() {
+        enQueue(1,1,1);
+        
+    }
+    
     public static void enQueue(int level, int x, int y) {
         // 큐 생성 시 방문 완료
         visited[y][x] = true;
         
+        NodeXY node = new NodeXY();
         
+        node.level = level;
+        node.x = x;
+        node.y = y;
+        node.link = null;
+        
+        if (isEmpty()) {
+            front = node;
+            rear = node;
+        } else {
+            rear.link = node;
+            rear = node;
+        }
     }
     
     public static void deQueue() {
@@ -92,6 +110,14 @@ public class Solution {
     
     public static boolean isEmpty() {
         return (front == null && rear == null);
+    }
+    
+    public static int qPeek() {
+        if (isEmpty()) return -1;
+        else {
+            
+            return front.level;
+        }
     }
     
 }
