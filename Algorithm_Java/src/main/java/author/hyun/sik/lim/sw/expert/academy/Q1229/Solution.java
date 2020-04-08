@@ -1,13 +1,18 @@
-package author.hyun.sik.lim.sw.expert.academy.Q1228;
+package author.hyun.sik.lim.sw.expert.academy.Q1229;
+
+// 0 ~ 999999 사이의 수를 나열한 암호문 존재
+// 명령어
+// I(삽입) x, y, s : 앞에서부터 x의 위치 바로 다음에 y개의 숫자  삽입, s는 덧붙일 숫자
+// D(삭제) x, y : 앞에서부터 x의 위치 바로 다음부터 y개의 숫자 삭제
 
 import java.util.LinkedList;
 import java.util.Scanner;
 
 class Solution {
     static LinkedList<Integer> crypto;
+    static Scanner sc = new Scanner(System.in);
     // 리스트 생성
     public static void main(String args[]) throws Exception {
-        Scanner sc = new Scanner(System.in);
         int T = 10;
 
         for (int test_case = 1; test_case <= T; test_case++) {
@@ -31,14 +36,10 @@ class Solution {
                 
                 switch (command) {
                 case 'I': 
-                    int start = sc.nextInt();
-                    int end = sc.nextInt();
-                    
-                    int index = 0;
-                    while (index < end) {
-                        crypto.add(start + index, sc.nextInt());
-                        index++;
-                    }
+                    insert();
+                    break;
+                case 'D':
+                    delete();
                     break;
                 }
             }
@@ -53,6 +54,30 @@ class Solution {
             
         }
         sc.close();
+    }
+    
+    // 삽입
+    public static void insert() {
+        int start = sc.nextInt();
+        int end = sc.nextInt();
+        
+        int index = 0;
+        while (index < end) {
+            crypto.add(start + index, sc.nextInt());
+            index++;
+        }
+    }
+    
+    // 삽입
+    public static void delete() {
+        int start = sc.nextInt();
+        int end = sc.nextInt();
+        
+        int index = 0;
+        while (index < end) {
+            crypto.remove(start);
+            index++;
+        }
     }
     
 }
