@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 // https://buddev.tistory.com/31 참고
-public class Solution {
+public class IsNotSolution {
     private static int N;
     private static int K;
     private static int[][] color;
