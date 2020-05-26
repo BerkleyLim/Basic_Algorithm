@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Solution {
+public class Incorrect2 {
     static class Node {
         int x, y;
         

@@ -23,7 +23,7 @@ import java.util.Scanner;
 //     빈칸 : 0, 벽 : 1
 //     로봇 청소기가 있는 칸의 상태는 항상 빈칸, 
 
-
+// 참조 : https://heekim0719.tistory.com/347?category=816705
 public class Solution {
     static int N; // 세로 크기
     static int M; // 가로 크기
@@ -33,9 +33,13 @@ public class Solution {
     static int c; // 로봇 청소기 가로 위치
     static int d; // 로봇 청소기 방향
     
-    // 북 동 남 서 방향 지정
-    static final int[] dx = {0, 1, 0, -1};
+    // 북 동 남 서 방향 지정 (회전 좌표)
+    static final int[] dx = {0, -1, 0, 1};
     static final int[] dy = {-1, 0, 1, 0};
+    
+    // 후진 좌표
+    static final int[] bx = {1, 0, -1, 0};
+    static final int[] by = {0, -1, 0, 1};    
     
     // 방문 여부 확인
     static boolean[][] visited;
@@ -43,17 +47,8 @@ public class Solution {
     // 지도 정보
     static int[][] map;
     
-//    static class Dot {
-//        int x;
-//        int y;
-//        int direction;
-//        
-//        public Dot(int x, int y, int direction) {
-//            this.x = x;
-//            this.y = y;
-//            this.direction = direction;
-//        }
-//    }
+    // 결과물 출력
+    static int result;
     
     public static void main(String[] args) {
         // 입력 조건 수행
@@ -79,91 +74,43 @@ public class Solution {
         // ---------------------------
         
         // 알고리즘 시작
-        // 풀이과정
-        // (1) 아직 로봇 방문 안한 칸!
-        // (2) 방향 돌리기
-        // (3) 벽인지 아닌지 판별
-        // (4) 벽인 경우 방향 검사 표시
-        // (6) 반복문 생성 - 각 방향별로 검사를 위해
-        // (7) 벽이 아닌 경우 반복문 바로 종료하는 명령구현
-        // (8) 이미 청소한 경우(방문한 경우) 및 벽인 경우 - 생략 및 변수 설정
-        // (9) 이동 실패 이후 다음으로 4방향 모두 검사시 조건절 수행
-        // (10) 만일 4방향 돌았을 때 움직일 수 없고 뒤로 움직이면 벽일 때 시스템 종료
-        while(true) {
-            // (5)
-            //boolean[] directed = new boolean[4];
-            
-            // (8)
-            boolean flags = false;
-            
-            // (1)
-            if (!visited[r][c]) {
-                visited[r][c] = true;
-                
-                // (6)
-                for (int i = 0; i < 4; i++) {
-                    // (2)
-                    int tempD = ((d + 3) - i) % 4;
-                    int tempY = r + dy[d];
-                    int tempX = c + dx[d];
-                    
-                    // (3)
-                    if (map[tempY][tempX] == 1  || visited[tempY][tempX]) {
-                        //(5)
-                        //directed[tempD] = true;
-                    } else {
-                        // (2)
-                        d = tempD;
-                        r = tempY;
-                        c = tempX;
-                        // (8)
-                        flags = true;
-                        
-                        // (7)
-                        break;
-                    }
-                }
-            } 
-                
-                
-            
-            // (9)
-            if (!flags) {
-                boolean isExist = true;
-                // (11) : 4방향 모두 색인 했을 때 찾지 못한 경우 검사
-//                for (int i = 0; i < 4; i++) {
-//                    if(!directed[i]) {
-//                        isExist = false;
-//                        break;
-//                    }
-//                }
-                
-                // (10)
-                //if (isExist) {
-                    int tempY = r - dy[d];
-                    int tempX = c - dx[d];
-                    
-                    if (map[tempY][tempX] == 1)
-                        break;
-                    else {
-                        r = tempY;
-                        c = tempX;
-                    }
-                    
-                //}
-            }
-        }
-        
-        // 여기서 답 찾는 과정 풀이
-        int count = 0;
-        for (int y = 0; y < N; y++) {
-            for (int x = 0; x < M; x++) {
-                if(visited[y][x])
-                    count++;
-            }
-        }
-        
-        System.out.println(count);
+        visited[r][c] = true;
+        result = 1;
+        cleaning(r, c, d, 0);
         // 알고리즘 종료
+        System.out.println(result);
+    }
+    
+    private static void cleaning(int x, int y, int direction, int count) {
+        if (count == 4) {
+            // 후진
+            int nx = x + bx[direction];
+            int ny = y + by[direction];
+            
+            if (map[nx][ny] == 1 
+                    || nx <= 0 
+                    || ny <= 0 
+                    || nx >= N - 1 
+                    || ny >= M - 1) {
+                return;
+            } else {
+                cleaning(nx, ny, direction, 0);
+            }
+        } else {
+            int nx = x + dx[direction];
+            int ny = y + dy[direction];
+            
+            // 청소 가능 상태
+            if (map[nx][ny] == 0 && !(visited[nx][ny])) {
+                result++;
+                visited[nx][ny] = true;
+                if (direction - 1 < 0) direction = 4;
+                cleaning(nx, ny, direction - 1, 0);
+            } else {
+                // 청소 불가능 상태
+                if (direction - 1 < 0) direction = 4;
+                cleaning(x, y, direction - 1, count + 1);
+            }
+        }
     }
 }
