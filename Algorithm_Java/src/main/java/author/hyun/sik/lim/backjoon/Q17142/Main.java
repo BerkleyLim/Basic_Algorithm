@@ -1,9 +1,12 @@
 package author.hyun.sik.lim.backjoon.Q17142;
 
+import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.StringTokenizer;
 
 // 연구소 3문제!
 // 바이러스 연구 관련 문제
@@ -25,159 +28,128 @@ import java.util.Stack;
 // 출력 조건
 // 연구소의 모든 빈 칸에 대한 바이러스가 있게 되는 최소 시간!
 // 단, 모든 빈칸에 바이러스를 퍼뜨릴 수 없을 경우 -1 출력
+
+// 출처 : https://lily-lee.postype.com/post/4906610
 public class Main {
-    static class VirusLocation {
-        int x;
-        int y;
+    public static int N, M, INF = 987654321, min = INF;
+    public static boolean flag;
+    public static int[][] maps, visit;
+    public static boolean[] v;
+    public static Point[] w;
+    public static ArrayList<Point> vir;
+    public static int[] dr = {-1,1,0,0}, dc = {0,0,-1,1};
+    public static void main(String[] args) throws Exception {
+
+        INIT();
+        comb(0,0);
+        if(min == INF)
+            System.out.println(-1);
+        else
+            System.out.println(min);
+        
+        
     }
-    static int N;
-    static int M;
-    static int[][] map;
-    
-    static Queue<VirusLocation> queue;
-    static Stack<VirusLocation> virus, pick;
-    static int minSpend;    // 결과 나타낼 변수
-    
-    // 바이러스 확산시간 및 방문여부
-    static int[][] second;
-    
-    // 방향 순회용
-    static final int[] dx = {0, 0, 1, -1};
-    static final int[] dy = {1, -1, 0, 0};
-    
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void INIT() throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
         
-        // 알고리즘 시작
-        // 초기화
-        N = sc.nextInt();
-        M = sc.nextInt();
-        
-        map = new int[N][N];
-        virus = new Stack<>();
-        queue = new LinkedList<>();
-        pick = new Stack<>();
-        minSpend = 999999999;
-        
-        second = new int[N][N];
-        
-        // 입력
-        for (int y = 0; y < N; y++) {
-            for (int x = 0; x < N; x++) {
-                map[y][x] = sc.nextInt();
-                
-                if(map[y][x] == 2) {
-                    VirusLocation vl = new VirusLocation();
-                    vl.x = x;
-                    vl.y = y;
-                    virus.push(vl);
-                }
+        N = Integer.parseInt(st.nextToken());    //연구소 크기
+        M = Integer.parseInt(st.nextToken());    //활성시킬 바이러스 갯수
+        maps = new int[N][N];
+        vir = new ArrayList<Point>();
+        for(int i = 0; i<N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j<N; j++) {
+                maps[i][j] = Integer.parseInt(st.nextToken());
+                if(maps[i][j] == 2)    //비활성바이러스라면
+                    vir.add(new Point(i, j));
+            }
+        }//INIT END
+        w = new Point[vir.size()];
+        v = new boolean[vir.size()];
+    }
+
+    public static void comb(int start, int cnt) {
+        if(M == cnt) {
+            int sol = BFS();
+            min = min<sol?min:sol;
+/*            for(int[] x: visit)
+                System.out.println(Arrays.toString(x));
+            System.out.println();*/
+            return;
+        }
+        for(int i = start; i<vir.size(); i++) {
+            if(!v[i]) {
+                v[i] = true;
+                w[cnt] = vir.get(i);    //바이러스 위치 저장
+                comb(i, cnt+1);
+                v[i] = false;
             }
         }
-        
-        // 로직 시작!
-        backTracking(0);
-        
-        // 여기서 벽이 존재시
-        if (minSpend == 999999999)
-            minSpend = -1;
-        
-        // 결과 출력
-        System.out.println(minSpend);
-        // 알고리즘 종료
-        
     }
     
-    
-    
-    public static void backTracking(int index) {
-        // 만일 백트레킹 기법으로 모든 바이러스의 대해 검사 다 했을 경우!
-        if (index == virus.size()) {
-            // 여기서 전체 바이러스 중 일부 활성화 된 바이러스만 수행
-            if (pick.size() == M) {
-                
-                // 선택된 바이러스들을 큐에 먼저 넣고 bfs 알고리즘 수행을 위해 실시
-                //queue.addAll(pick);
-                
-                for (int i = 0; i < M; i++)
-                    queue.offer(pick.get(i));
-                
-                // 전체를 -1로 초기화!
-                for (int y = 0; y < N; y++) {
-                    for (int x = 0; x < N; x++) {
-                        second[y][x] = -1;
-                    }
-                }
-                
-                // m개의 바이러스에서 초기값 0으로 지정
-                for (int i = 0; i < pick.size(); i++) {
-                    second[pick.get(i).y][pick.get(i).x] = 0;
-                }
-                
-                // 여기서 일부 활성화 바이러스를 골라 활성화 시작!
-                bfs();
-            }
-            // 그렇지 않은 경우 수행 금지
-        } else {
-            // 먼저 스택으로 골라 바이러스에 집어 넣는다.
-            pick.push(virus.get(index));
-            backTracking(index + 1);
-            pick.pop();
+    public static int BFS() {
+        int times = 1;
+        flag = false;
+        visit = new int[N][N];    //돌 때마다 새로 만들어줘야함
+        int[][] copys = new int[N][N];
+        for(int i = 0; i<N; i++) {
+            copys[i] = maps[i].clone();
+        }
+        
+        Queue <Point> q = new LinkedList<Point>();
+        for(int i = 0; i<M; i++) {
+            q.offer(w[i]);
+            visit[w[i].x][w[i].y] = 1;
+        }//활성 바이러스 위치 저장
+        
+        while(!q.isEmpty()) {
+            int r = q.peek().x;
+            int c = q.poll().y;
+            if(copys[r][c] == 3)
+                times = times>visit[r][c]?times:visit[r][c];
             
-            // 선택 하지 않고 바이러스 번호 순회
-            backTracking(index + 1);
-        }
-    }
-    
- // 여기서 바이러스 퍼트리는 방법의 대해 알고리즘 작성
-    public static void bfs() {
-        // bfs 공식을 먼저
-        while(!queue.isEmpty()) {
-            VirusLocation vl = queue.poll();
-            int x = vl.x;
-            int y = vl.y;
+            loop:for(int i = 0; i<N; i++) {
+                for(int j = 0; j<N; j++) {
+                    if(flag)
+                        break loop;
+                    if(!flag && maps[i][j] == 0) {
+                        flag = true;
+                    }
+                }
+            }
             
-            // 방향 검사
-            for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+            if(!flag)
+                return times-1;
+            
+            
+            for(int d = 0; d<dr.length; d++) {
+                int nr = r + dr[d];
+                int nc = c + dc[d];
                 
-                // 다음은 연구소 범위 안에 있을 경우만 실시
-                if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
-                    // 다음은 벽이 아닐 경우 혹은 비활성화 된 바이러스는 활성화 바이러스를 만나면 활성화
-                    if (map[ny][nx] != 1 && second[ny][nx] <= 0) {
-                        second[ny][nx] = second[y][x] + 1;
-                        vl = new VirusLocation();
-                        vl.x = nx;
-                        vl.y = ny;
-                        queue.offer(vl);
-                    }
+                if(isIn(nr, nc) && visit[nr][nc] == 0 && copys[nr][nc] == 0) {
+                    visit[nr][nc] = visit[r][c] + 1;
+                    copys[nr][nc] = 3;
+                    q.offer(new Point(nr, nc));
+                } else if(isIn(nr, nc) && visit[nr][nc] == 0 && copys[nr][nc] == 2) {
+                    visit[nr][nc] = visit[r][c]+ 1;
+                    q.offer(new Point(nr, nc));
+                }
+                
+            }
+        }
+        
+        for(int i = 0; i<N; i++) {
+            for(int j = 0; j<N; j++) {
+                if(copys[i][j] == 0) {
+                    return INF;
                 }
             }
         }
         
-        
-        // 다음은 빈칸이 있는지 검사 혹은 최소 시간 검사
-        boolean isClear = true;
-        int maxTime = 0;
-        
-        for (int y = 0; y < N; y++) {
-            for (int x = 0; x < N; x++) {
-                // 빈칸인 경우!
-                if (map[y][x] == 0) {
-                    // 벽이 아니고 빈칸이 존재시 작업 종료
-                    
-                    if (second[y][x] < 0) {
-                        isClear = false;
-                        break;
-                    }
-                    
-                    maxTime = Math.max(maxTime, second[y][x]);
-                }
-            }
-        }
-        
-        // 최소시간 환산
-        if (isClear) minSpend = Math.min(minSpend, maxTime);
+        return times-1;
+    }
+    public static boolean isIn(int r, int c) {
+        return (0<= r && r<N && 0<=c && c<N);
     }
 }
