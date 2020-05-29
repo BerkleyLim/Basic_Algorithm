@@ -9,14 +9,17 @@ import java.util.StringTokenizer;
 public class Main1 { 
     private static int n, m, h, answer = 4; 
     private static int[][] map; 
+    
     public static void main(String[] args) throws Exception { 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         h = Integer.parseInt(st.nextToken());
         map = new int[h + 1][n + 1];
         int x, y;
+        
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             x = Integer.parseInt(st.nextToken());
