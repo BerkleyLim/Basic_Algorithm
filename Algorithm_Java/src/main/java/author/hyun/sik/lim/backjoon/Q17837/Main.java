@@ -6,6 +6,17 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+//새로운 게임 2
+//체스판과 말을 이용해서 전체 말들이 모두 한곳으로 좌표에 올랐을 때 나오는 결과 
+//흰색, 빨간색, 파란색 칸이 주어진다.
+//입력 조건
+//첫째 줄, 체스판의 크기(N), 말의 개수 (K)
+//둘째 줄 : 체스판 크기 지정
+//0 : 흰색, 1 : 빨간색, 2 : 파란색
+//마지막 줄 : K개의 말의 대한 정보(1번말부터 순서대로 주어짐)
+//행번호, 열번호, 이동방향 (1~4가지)
+//이동방향 정보 : 1 : 오른쪽, 2 : 왼쪽, 3 : 윗쪽, 4 : 아랫쪽
+
 //https://velog.io/@hyeon930/BOJ-17837-%EC%83%88%EB%A1%9C%EC%9A%B4-%EA%B2%8C%EC%9E%842-Java
 public class Main {
     
