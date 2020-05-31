@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+// 연구소 문제
 // 출처 : https://lily-lee.postype.com/post/4906603
 
 public class Solution {
