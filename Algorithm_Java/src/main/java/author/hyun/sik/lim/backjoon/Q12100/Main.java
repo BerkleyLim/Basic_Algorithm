@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Stack; 
 import java.util.StringTokenizer; 
 
+// 2048 게임
 // 출처 : https://heekim0719.tistory.com/370
 public class Main { 
     static int n; 
