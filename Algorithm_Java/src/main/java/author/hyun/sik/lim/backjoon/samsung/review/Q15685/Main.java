@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.backjoon.samsung.review.Q15685_not;
+package author.hyun.sik.lim.backjoon.samsung.review.Q15685;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
