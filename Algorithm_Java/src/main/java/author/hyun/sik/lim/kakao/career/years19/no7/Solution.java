@@ -18,6 +18,51 @@ import java.util.Queue;
 // 참고 : https://leveloper.tistory.com/102
 
 public class Solution {
+    // BFS 문제!
+    /* 다음과 같이 구성 (방향 알고리즘, r : 로봇)
+     * 3 3 0
+     * 2 r 0
+     * 2 1 1
+     * */
+    // 이동 고려
+    static final int[] dx = {0, 1, 0, -1}; 
+    static final int[] dy = {1, 0, -1, 0}; 
+    
+    // 회전 고려
+    static final int[] rdx = {-1, 1, 1, -1}; 
+    static final int[] rdy = {1, 1, -1, -1};
+    
+    static Queue<Point> queue;
+    static int[][] board;
+    static int N;
+    static boolean[][][] visited;
+    static class Point {
+        int x, y;
+        int direction; // 가로 : 0, 세로 : 1
+        int second; // 초
+        Point (int x, int y, int direction, int second) {
+            this.x = x;
+            this.y = y;
+            this.direction = direction;
+            this.second = second;
+        }
+        public int getOtherX() {
+            return x + dx[direction]; 
+            
+        } 
+        
+        public int getOtherY() {
+            return y + dy[direction];
+            
+        }
+        @Override
+        public String toString() {
+            return "Point [x=" + x + ", y=" + y + ", direction=" + direction
+                    + ", second=" + second + "]";
+        }
+        
+    }
+    
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         int[][] board = 
@@ -29,44 +74,15 @@ public class Solution {
         System.out.println(solution(board));
     }
     
-    // BFS 문제!
-    // 0~3번방 : 하,우,상,좌 이동
-    // 회전시 : 
-    // > 가로방향이 주어지면
-    // 로봇 왼쪽 좌표부분
-    // 1) 아래로 이동 : 1 -> 0
-    // 2) 위로 이동 : 3 -> 0
-    // 로봇 오른쪽 좌표 부분
-    // 1) 아래로 이동 : 1 -> 2
-    // 2) 위로 이동 : 3 -> 2
-    // > 세로방향이 주어지면
-    // 로봇 아랫쪽 좌표부분
-    // 1) 왼쪽으로 이동 : 2 -> 3
-    // 2) 오른쪽으로 이동 : 0 -> 3
-    // 로봇 윗쪽 좌표 부분
-    // 1) 왼쪽으로 이동 : 2 -> 1
-    // 2) 오른쪽으로 이동 : 0 -> 1
-    static int[] dx = {0, 1, 0, -1};
-    static int[] dy = {1, 0, -1, 0};
-    static Queue<Point> queue;
-    static class Point {
-        int[] x, y;
-        int direction; // 가로 : 0, 세로 : 1
-        Point (int[] x, int[] y, int direction) {
-            this.x = x;
-            this.y = y;
-            this.direction = direction;
-        }
-    }
+
     
     public static int solution(int[][] board) {
-        int answer = 0;
         // 지도 크기 설정
-        final int N = board.length;
+        N = board.length;
         queue = new LinkedList<>();
-        int[] x = {0, 1};
-        int[] y = {0, 0};
-        queue.add(new Point(x,y,0));
+        queue.add(new Point(0,0,0,0));
+        visited = new boolean[N][N][4];
+        visited[0][0][0] = true;
         // 초기 값
         // 상단
         // (x,y) = (0,0), (1,0)
@@ -76,33 +92,99 @@ public class Solution {
         // 합해서 구하기
         
         // 도착까지 최소 걸리는 시간을 구하기!
-        answer = bfs(board);
-        return answer;
+        return bfs(board);
     }
 
     private static int bfs(int[][] board) {
         // TODO Auto-generated method stub
-        int second = 0;
+        // Queue에서 꺼낸 로봇의 x, y, 방향, 시간, 다른 x, y 
+        int second, ox, oy; 
+        int x, y, direction;
+        // 로봇이 이동 후 가지게 되는 위치 및 방향 (nox : next other x)
+        int nx, ny, nox, noy, ndirection;  
+        // 회전할 때 판단해야 할 벽의 위치
+        int rx, ry; 
+
         while(!queue.isEmpty()) {
             Point point = queue.remove();
-            int[] x = point.x;
-            int[] y = point.y;
+            x = point.x;
+            y = point.y;
+            direction = point.direction;
+            second = point.second;
+            ox = point.getOtherX(); 
+            oy = point.getOtherY();
             
-            // 각 방향별 이동 및 회전!
-            for (int i = 0; i < 4; i++) {
-                switch(i) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                }
+            if (isFinish(x, y) || isFinish(ox, oy)) return second; // 도착하면 리턴
+
+            // 각 방향별 이동
+            for (int i = 0; i < 4; i++) { 
+                nx = x + dx[i]; 
+                ny = y + dy[i]; 
+                nox = ox + dx[i]; 
+                noy = oy + dy[i];
+                
+                if (outWall(nx,ny) || outWall(nox,noy)) continue;
+                if (board[ny][nx] == 1 || board[noy][nox] == 1) continue;
+                if (visited[ny][nx][direction]) continue;
+                visited[ny][nx][direction] = true;
+                queue.add(new Point(nx, ny, direction, second + 1));
+
             }
-            second++;
+            // 회전
+            for (int i = 1; i < 4; i += 2) { 
+                // x, y를 기준으로 90도 회전 
+                ndirection = (direction + i) % 4; 
+                nox = x + dx[ndirection]; 
+                noy = y + dy[ndirection]; 
+                int tempDir = (i == 1) ? ndirection : direction;
+                
+                rx = x + rdx[tempDir]; 
+                ry = y + rdy[tempDir]; 
+                
+                if (!outWall(nox, noy) || !outWall(rx, ry)) continue; 
+                if (board[nox][noy] == 1 || board[rx][ry] == 1) continue; 
+                if (visited[x][y][ndirection]) continue; 
+                
+                visited[x][y][ndirection] = true; 
+                queue.add(new Point(x, y, ndirection, second + 1)); 
+            } 
+            
+            direction = (direction + 2) % 4; 
+            // 방향 반대 처리 
+            for (int i = 1; i < 4; i += 2) { 
+                // ox, oy를 기준으로 90도 회전 
+                ndirection = (direction + i) % 4;
+                nx = ox + dx[ndirection];
+                ny = oy + dy[ndirection];
+                int tempDir = (i == 1) ? ndirection : direction;
+                
+                rx = ox + rdx[tempDir];
+                ry = oy + rdy[tempDir];
+                
+                ndirection = (ndirection + 2) % 4;
+                if (!outWall(nx, ny) || !outWall(rx, ry)) continue;
+                if (board[nx][ny] == 1 || board[rx][ry] == 1) continue;
+                if (visited[nx][ny][ndirection]) continue;
+                
+                visited[nx][ny][ndirection] = true;
+                queue.add(new Point(nx, ny, ndirection, second + 1));
+            }
+
         }
-        return second;
+        return 0;
+    }
+
+
+
+    private static boolean isFinish(int x, int y) {
+        // TODO Auto-generated method stub
+        return (x == N - 1 && y == N - 1);
+    }
+
+
+
+    private static boolean outWall(int x, int y) {
+        // TODO Auto-generated method stub
+        return (x < 0 || y < 0 || x >= N || y >= N);
     }
 }
