@@ -51,11 +51,11 @@ public class Solution {
     static Queue<Point> queue;
     static class Point {
         int[] x, y;
-        int second;
-        Point (int[] x, int[] y, int second) {
+        int direction; // 가로 : 0, 세로 : 1
+        Point (int[] x, int[] y, int direction) {
             this.x = x;
             this.y = y;
-            this.second = second;
+            this.direction = direction;
         }
     }
     
