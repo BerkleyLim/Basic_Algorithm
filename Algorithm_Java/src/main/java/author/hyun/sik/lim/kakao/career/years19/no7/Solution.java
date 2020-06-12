@@ -46,8 +46,8 @@ public class Solution {
     // 로봇 윗쪽 좌표 부분
     // 1) 왼쪽으로 이동 : 2 -> 1
     // 2) 오른쪽으로 이동 : 0 -> 1
-    static int[] dx = {1, 0, -1, 0};
-    static int[] dy = {0, 1, 0, -1};
+    static int[] dx = {0, 1, 0, -1};
+    static int[] dy = {1, 0, -1, 0};
     static Queue<Point> queue;
     static class Point {
         int[] x, y;
