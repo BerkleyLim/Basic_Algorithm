@@ -17,7 +17,9 @@ import java.util.Queue;
 
 // 참고 : https://leveloper.tistory.com/102
 
-public class Solution {
+class Solution {
+    private static int[][] boards;
+    private static int N;
     // BFS 문제!
     /* 다음과 같이 구성 (방향 알고리즘, r : 로봇)
      * 3 3 0
@@ -25,16 +27,14 @@ public class Solution {
      * 2 1 1
      * */
     // 이동 고려
-    static final int[] dx = {0, 1, 0, -1}; 
-    static final int[] dy = {1, 0, -1, 0}; 
+    static final int[] dx = {1, 0, -1, 0}; 
+    static final int[] dy = {0, 1, 0, -1}; 
     
     // 회전 고려
-    static final int[] rdx = {-1, 1, 1, -1}; 
-    static final int[] rdy = {1, 1, -1, -1};
+    static final int[] rdx = {1, 1, -1, -1};
+    static final int[] rdy = {-1, 1, 1, -1}; 
     
     static Queue<Point> queue;
-    static int[][] board;
-    static int N;
     static boolean[][][] visited;
     static class Point {
         int x, y;
@@ -65,12 +65,12 @@ public class Solution {
     
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        int[][] board = 
-               {{0, 0, 0, 1, 1},
+        int[][] board = {{0, 0, 0, 1, 1},
                 {0, 0, 0, 1, 0},
                 {0, 1, 0, 1, 1},
                 {1, 1, 0, 0, 1},
                 {0, 0, 0, 0, 0}};
+        
         System.out.println(solution(board));
     }
     
@@ -79,6 +79,7 @@ public class Solution {
     public static int solution(int[][] board) {
         // 지도 크기 설정
         N = board.length;
+        boards = board;
         queue = new LinkedList<>();
         queue.add(new Point(0,0,0,0));
         visited = new boolean[N][N][4];
@@ -92,10 +93,10 @@ public class Solution {
         // 합해서 구하기
         
         // 도착까지 최소 걸리는 시간을 구하기!
-        return bfs(board);
+        return bfs();
     }
 
-    private static int bfs(int[][] board) {
+    private static int bfs() {
         // TODO Auto-generated method stub
         // Queue에서 꺼낸 로봇의 x, y, 방향, 시간, 다른 x, y 
         int second, ox, oy; 
@@ -124,7 +125,7 @@ public class Solution {
                 noy = oy + dy[i];
                 
                 if (outWall(nx,ny) || outWall(nox,noy)) continue;
-                if (board[ny][nx] == 1 || board[noy][nox] == 1) continue;
+                if (boards[ny][nx] == 1 || boards[noy][nox] == 1) continue;
                 if (visited[ny][nx][direction]) continue;
                 visited[ny][nx][direction] = true;
                 queue.add(new Point(nx, ny, direction, second + 1));
@@ -141,11 +142,11 @@ public class Solution {
                 rx = x + rdx[tempDir]; 
                 ry = y + rdy[tempDir]; 
                 
-                if (!outWall(nox, noy) || !outWall(rx, ry)) continue; 
-                if (board[nox][noy] == 1 || board[rx][ry] == 1) continue; 
-                if (visited[x][y][ndirection]) continue; 
+                if (outWall(nox, noy) || outWall(rx, ry)) continue; 
+                if (boards[noy][nox] == 1 || boards[ry][rx] == 1) continue; 
+                if (visited[y][x][ndirection]) continue; 
                 
-                visited[x][y][ndirection] = true; 
+                visited[y][x][ndirection] = true; 
                 queue.add(new Point(x, y, ndirection, second + 1)); 
             } 
             
@@ -162,23 +163,23 @@ public class Solution {
                 ry = oy + rdy[tempDir];
                 
                 ndirection = (ndirection + 2) % 4;
-                if (!outWall(nx, ny) || !outWall(rx, ry)) continue;
-                if (board[nx][ny] == 1 || board[rx][ry] == 1) continue;
-                if (visited[nx][ny][ndirection]) continue;
+                if (outWall(nx, ny) || outWall(rx, ry)) continue;
+                if (boards[ny][nx] == 1 || boards[ry][rx] == 1) continue;
+                if (visited[ny][nx][ndirection]) continue;
                 
-                visited[nx][ny][ndirection] = true;
+                visited[ny][nx][ndirection] = true;
                 queue.add(new Point(nx, ny, ndirection, second + 1));
             }
 
         }
-        return 0;
+        return -1;
     }
 
 
 
     private static boolean isFinish(int x, int y) {
         // TODO Auto-generated method stub
-        return (x == N - 1 && y == N - 1);
+        return x == N - 1 && y == N - 1;
     }
 
 
