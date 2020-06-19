@@ -28,23 +28,19 @@ import java.util.StringTokenizer;
 // 출력조건
 // 여러가지 경우의 수 중에서 조건이 일정한 쌍의 최대 갯수 출력
 public class Main {
-    static class Person implements Comparable<Person>{
+    static class Person{
         int tail;   // 키를 표현
         boolean prefer; // true : 자기 보다 키큰 사람 선호, false : 자기보다 키 작은 사람 선호
+        int size;
         
         public Person(int tail, boolean prefer) {
             this.tail = tail;
             this.prefer = prefer;
         }
-
-        // 정렬 알고리즘
-        @Override
-        public int compareTo(Person o) {
-            // TODO Auto-generated method stub
-            // 오름차순
-            return (this.tail - o.tail);
-        }
         
+        public void count() {
+            size++;
+        }
     }
     
     static LinkedList<Person> man;
