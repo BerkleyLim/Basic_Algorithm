@@ -9,6 +9,10 @@
 >> - I'm getting to need to study programming coding with junior SW developer and engineer.
 >> - If you need to study with us, please contact to "berkleylim16@gmail.com".
 
+
+> ## contact
+>> - E-mail : berkleylim16@gmail.com
+
 > ## Reference
 >> - 이것은 나만의 알고리즘을 만들어 서로 공유하고자 하는 목적으로 사용하였다.
 >> - 주로, 대부분 대기업 S/W 역량 검사 or 카카오 블라인드 채용 등등 다양한 코딩 시험을 위해 알고리즘 작성
