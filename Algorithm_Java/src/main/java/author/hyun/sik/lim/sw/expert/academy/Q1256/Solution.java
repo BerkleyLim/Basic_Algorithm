@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.Collections;
 
 // 트라이 문자
 // 트라이 참고 : https://4ngs.tistory.com/24
 // K번째 접미어 찾기 문제
 
+// 답 참고 : https://m.blog.naver.com/PostView.nhn?blogId=1ilsang&logNo=221305266065&proxyReferer=https:%2F%2Fwww.google.com%2F
 
 public class Solution {
     public static void main(String[] args) throws Exception {
@@ -30,23 +32,16 @@ public class Solution {
     }
     
     static int N;
-    static class TrieNode {
-        TrieNode[] child;
-        boolean isTerminal;
-        public TrieNode() {
-            this.child = new TrieNode[N];
-            this.isTerminal = false;
-        }
-    }
-    
     private static String solution(int K, String str) {
         // TODO Auto-generated method stub
         N = str.length();
-        String[] s = new String[N];
-        s[0] = str;
         
-        
-        return null;
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            list.add(str.substring(i,N));
+        }
+        Collections.sort(list);
+        return list.get(K-1);
     }
 
 }
