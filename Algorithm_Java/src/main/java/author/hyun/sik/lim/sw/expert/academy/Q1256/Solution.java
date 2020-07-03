@@ -43,6 +43,8 @@ public class Solution {
         // TODO Auto-generated method stub
         N = str.length();
         String[] s = new String[N];
+        s[0] = str;
+        
         
         return null;
     }
