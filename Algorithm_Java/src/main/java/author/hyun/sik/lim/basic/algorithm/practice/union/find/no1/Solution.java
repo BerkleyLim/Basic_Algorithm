@@ -31,7 +31,10 @@ public class Solution {
         
         // 1. 배열 초기화 (입력 조건이 주어지면 반복문으로 할 것)
         // 처음에는 각 원소들은 연결된 정보가 없어서 부모가 자기 자신을 가짐
-        parent = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+        parent = new int[9];
+        for (int i = 0; i <= 9; i++) {
+            parent[i] = i;
+        }
         
         // 2. Find 함수 : x로 들어온 원소의 Root 노드를 반환
         Find(1);
