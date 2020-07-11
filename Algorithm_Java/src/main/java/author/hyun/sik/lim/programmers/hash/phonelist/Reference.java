@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.programmers.hash.phonelist_not;
+package author.hyun.sik.lim.programmers.hash.phonelist;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class Reference {
     // phone_book의 길이는 1 ~ 1,000,000
     // 각 전화번호의 길이는 1이상 20이하
     // 트라이 알고리즘
-//    public static boolean solution(String[] phone_book) {
+    public static boolean solution(String[] phone_book) {
 //        Trie trie = new Trie();
 //        
 //        // insert 메서드
@@ -42,8 +42,8 @@ public class Reference {
 //        trie.delete("PIES");
 //        trie.delete("PEN");
 //
-//        return true;
-//    }
+        return true;
+    }
     
     static class Trie {
          // [ 변수 ]
