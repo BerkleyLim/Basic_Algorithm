@@ -5,7 +5,7 @@ import java.util.Map;
 
 // 전화번호 목록 문제 (Hash)
 // 트라이 구현방법 참고 : https://the-dev.tistory.com/3
-public class Solution {
+public class Reference {
     public static void main(String[] args) {
         
         String[] phone_book = {"119", "97674223", "1195524421"}; //false
@@ -20,31 +20,30 @@ public class Solution {
     // phone_book의 길이는 1 ~ 1,000,000
     // 각 전화번호의 길이는 1이상 20이하
     // 트라이 알고리즘
-    public static boolean solution(String[] phone_book) {
-        Trie trie = new Trie();
-        
-        // insert 메서드
-        assertTrue(trie.isRootEmpty());
-        trie.insert("PI");
-        trie.insert("PIE");
-        trie.insert("POW");
-        trie.insert("POP");
-        assertFalse(trie.isRootEmpty());
-        // Contains 메서드
-        assertTrue(trie.contains("POW"));
-        assertFalse(trie.contains("PIES"));
-        // Delete 메서드
-        trie.delete("POP");
-        assertFalse(trie.contains("POP"));
-        assertTrue(trie.contains("POW"));
-        // 없는 단어를 지울 때 > 에러발생하는 예
-        trie.delete("PO");
-        trie.delete("PIES");
-        trie.delete("PEN");
-
-        출처: https://the-dev.tistory.com/3 [DevLogs]
-        return true;
-    }
+//    public static boolean solution(String[] phone_book) {
+//        Trie trie = new Trie();
+//        
+//        // insert 메서드
+//        assertTrue(trie.isRootEmpty());
+//        trie.insert("PI");
+//        trie.insert("PIE");
+//        trie.insert("POW");
+//        trie.insert("POP");
+//        assertFalse(trie.isRootEmpty());
+//        // Contains 메서드
+//        assertTrue(trie.contains("POW"));
+//        assertFalse(trie.contains("PIES"));
+//        // Delete 메서드
+//        trie.delete("POP");
+//        assertFalse(trie.contains("POP"));
+//        assertTrue(trie.contains("POW"));
+//        // 없는 단어를 지울 때 > 에러발생하는 예
+//        trie.delete("PO");
+//        trie.delete("PIES");
+//        trie.delete("PEN");
+//
+//        return true;
+//    }
     
     static class Trie {
          // [ 변수 ]
