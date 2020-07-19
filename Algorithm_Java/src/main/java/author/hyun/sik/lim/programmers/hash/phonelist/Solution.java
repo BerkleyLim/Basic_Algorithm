@@ -17,7 +17,7 @@ public class Solution {
     
     // 한 번호가 다른 번호의 접두어인 경우 있는지 검사 문제
     // phone_book의 길이는 1 ~ 1,000,000
-    // 각 전화번호의 길이는 1이상 20이하
+    // 각 전화번호의 길이는 1이상 20이하  
     // 트라이 알고리즘  
     public static boolean solution(String[] phone_book) {
         Arrays.sort(phone_book);
