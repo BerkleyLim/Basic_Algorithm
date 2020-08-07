@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.programmers.greedy.PEcloth_not;
+package author.hyun.sik.lim.programmers.greedy.PEcloth;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42862
 // 체육복 문제
@@ -30,30 +30,35 @@ public class Solution {
     // 체육 수업을 들을 수 있는 학생의 최댓값
     // n ==> 2 to 30 / 
     public static int solution(int n, int[] lost, int[] reserve) {
-        int answer = n;
+        int answer = n-lost.length;
         
-        for (int i = 0; i < lost.length; i++) {
-            boolean rent = false;
-            int j = 0;
-            
-            while(!rent) {
-                if (j == reserve.length)
-                    break;
-                
-                if (lost[i] == reserve[j]) {
-                    reserve[j] = -1;
-                    rent = true;
-                } else if(lost[i] - reserve[j] == 1) {
-                    reserve[j] = -1; 
-                    rent = true;
-                } else if(lost[i] - reserve[j] == -1) {
-                    reserve[j] = -1;
-                    rent = true;
-                } else {
-                    j++;
+      //잃어버린애가 두벌가져온 여부(참 : -1, reserve자격박탈)
+        for(int i = 0; i < reserve.length; i++){
+            for(int j = 0; j < lost.length; j++){
+                //자격박탈된애들 빼주기
+                if(lost[j] == -1 && reserve[i] == -1){
+                    continue;
                 }
-                
-                if (!rent) answer--;
+                // reserve 자격 박탈
+                if(lost[j] == reserve[i]){
+                    lost[j]=-1;
+                    reserve[i]=-1;
+                    answer++;
+                }
+            }
+        }
+        
+        // 다음으로 인접한 학생들중 체육복 잃어버린사람 
+        for(int i =0; i < lost.length; i++){
+            for(int j = 0; j < reserve.length; j++){
+                if(lost[i]==-1 || reserve[j]==-1){
+                    continue;
+                }
+                if(Math.abs(lost[i]-reserve[j])==1){
+                    answer++;
+                    reserve[j]=-1;
+                    break;
+                }
             }
         }
         
