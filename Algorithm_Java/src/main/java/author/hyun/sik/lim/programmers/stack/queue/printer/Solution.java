@@ -55,18 +55,18 @@ public class Solution {
             while (i < priorities.length) {
                 if (priorities[list.get(i-1)] < priorities[list.get(i)]) {
                     exit = true;
-                    int count = 0;
                     int prev = i - 1;
                     while (prev > 0) {
-                        if (priorities[list.get(prev)] > priorities[list.get(i-1)]) {
+                        if (priorities[list.get(prev)] > priorities[list.get(i)]) {
                             break;
                         } else {
-                            count++;
                             prev--;
                         }
                     }
                     
-                    while (count >= 0) {
+                    int count = i - prev;   
+                    
+                    while (count > 0) {
                         int value = list.remove(prev);
                         list.add(value);
                         count--;
