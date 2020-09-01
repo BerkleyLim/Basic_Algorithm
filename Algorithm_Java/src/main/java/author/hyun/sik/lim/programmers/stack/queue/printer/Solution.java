@@ -1,7 +1,8 @@
 package author.hyun.sik.lim.programmers.stack.queue.printer;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Solution {
 
@@ -33,55 +34,23 @@ public class Solution {
     public static int solution(int[] priorities, int location) {
         int answer = 0;
         
-        // 리스트로 인쇄순위 매기기
-        List<Integer> list = new LinkedList<>();
+        Queue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
         
-        for (int i = 0; i < priorities.length; i++) {
-            list.add(i);
-            if (i == location)
-                answer = location;
+        for (int priority : priorities) {
+            priorityQueue.offer(priority);
         }
         
-        boolean exit = true;
-        // 먼저 321144 부터 생각하고 풀어보기
-        while (exit) {
-            int i = 1;
-            exit = false;
-            for (int j = 0; j < priorities.length; j++) {
-                System.out.print("(" + list.get(j) + ", " +priorities[list.get(j)] + ")");
-            }
-            System.out.println();
-            
-            while (i < priorities.length) {
-                if (priorities[list.get(i-1)] < priorities[list.get(i)]) {
-                    exit = true;
-                    int prev = i - 1;
-                    while (prev > 0) {
-                        if (priorities[list.get(prev)] > priorities[list.get(i)]) {
-                            break;
-                        } else {
-                            prev--;
-                        }
+        while(!priorityQueue.isEmpty()) {
+            for (int i = 0; i < priorities.length; i++) {
+                if (priorityQueue.peek() == priorities[i]) {
+                    priorityQueue.poll();
+                    
+                    answer++;
+                    if (location == i) {
+                        priorityQueue.clear();
+                        break;
                     }
-                    
-                    int count = i - prev;   
-                    
-                    while (count > 0) {
-                        int value = list.remove(prev);
-                        list.add(value);
-                        count--;
-                    }
-                    
-                    break;
-                } 
-                i++;
-            }
-        }
-        
-        for (int i = 0; i < list.size(); i++) {
-            if (location == list.get(i)) {
-                answer = i + 1;
-                break;
+                }
             }
         }
         
