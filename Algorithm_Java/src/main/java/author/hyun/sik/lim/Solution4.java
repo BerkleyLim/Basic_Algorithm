@@ -3,19 +3,22 @@ package author.hyun.sik.lim;
 public class Solution4 {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        int[] A = new int[] {1,4,2};
-        int[] B = new int[] {5,4,4};
-        System.out.println(solution(A,B));
-        
-        A = new int[] {1,2};
-        B = new int[] {3,4};
-        System.out.println(solution(A,B));
+        int N = 5; //  2
+        System.out.println(solution(N));
+        N = 6;  // 2
+        System.out.println(solution(N));
+        N = 5000;  //  5
+        System.out.println(solution(N));
+       
     }
 
     
-    public static int solution(int []A, int []B){
-        int answer = Integer.MAX_VALUE;
-        
-        return answer;
+    public static int solution(int n) {
+        int ans = 0;
+
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+        System.out.println("Hello Java");
+
+        return ans;
     }
 }
