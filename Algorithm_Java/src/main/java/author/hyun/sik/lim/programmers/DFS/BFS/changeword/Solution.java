@@ -18,24 +18,45 @@ public class Solution {
     // words에 있는 단어로만 변환 가능
     static boolean[] isPick;
     public static int solution(String begin, String target, String[] words) {
-        int answer = 0;
+        int answer = Integer.MAX_VALUE;
+        isPick = new boolean[words.length];
+        answer = dfs(begin, target, words, 0, answer);
         
-        boolean isTarget = false;
-        
-        // target이 있을 경우 검사
-        for (int i = 0; i < words.length; i++) {
-            // target이 words 안에 존재하는지 여부 검사
-            if (target.equals(words[i])) {
-                isTarget = true;
-                break;
+        return answer == Integer.MAX_VALUE? 0 : answer;
+    }
+    
+    private static int dfs(String begin, String target, 
+            String[] words, int count, int minimum) {
+        for (int x = 0; x < words.length; x++) {
+            int diff = 0;
+            boolean conversion = true;
+            
+            // 글자 바꿀 수 있는지 검사
+            for (int i = 0; i < words[x].length(); i++) {
+                if (!begin.substring(i,i+1).equals(words[x].substring(i,i+1))) {
+                    diff++;
+                    if (diff > 1) {
+                        conversion = false;
+                        break;
+                    }
+                }
+            }
+            
+            // 로직
+            if (!isPick[x] && conversion) {
+                
+                if (words[x].equals(target)) {
+                    return Math.min(minimum, count + 1);
+                }
+                
+                isPick[x] = true;
+                int n = dfs(words[x], target, words, count+1, minimum);
+                if (n < minimum) {
+                    minimum = n;
+                }
+                isPick[x] = false;
             }
         }
-        
-        if (!isTarget)
-            return 0;
-        
-        isPick = new boolean[words.length];
-        
-        return answer;
+        return minimum;
     }
 }
