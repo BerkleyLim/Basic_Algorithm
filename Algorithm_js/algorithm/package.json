@@ -1,0 +1,14 @@
+{
+  "name": "algorithm",
+  "version": "1.0.0",
+  "description": "This algorithm folder is to prepare programming algorithm of ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "berkley Lim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
