@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.dp.triangle;
+package author.hyun.sik.lim.programmers.dp.triangle;
 
 public class Solution {
     public static void main(String[] args) {
