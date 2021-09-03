@@ -18,7 +18,10 @@ public class Solution {
 
     
     // 등굣길 문제
-    // 최단 거리 갯수 구하는 알고리즘, Brute-force 방식 접근
+    // 최단 거리 갯수 구하는 알고리즘
+    // 통계적 수학 알고리즘 방식으로 구하기
+    // 참조 공식 https://bhsmath.tistory.com/154
+    // 순열 방식으로 풀기
     // 캡슐화
     static class PathList {
         public PathList(int x, int y, int count) {

@@ -45,7 +45,7 @@ public class Brute_Force_Algorithm {
         for (int i = 0; i < puddles.length; i++) {
             int x = puddles[i][0];
             int y = puddles[i][1];
-            map[x][y] = 1;
+            map[x][y] = -1;
         }
         map[m][n] = 2;
         
