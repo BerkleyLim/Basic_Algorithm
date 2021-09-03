@@ -1,8 +1,5 @@
 package author.hyun.sik.lim.programmers.dp.goschool;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Solution {
 
     public static void main(String[] args) {
@@ -26,43 +23,33 @@ public class Solution {
     static int[][] map;
     
     public static int solution(int m, int n, int[][] puddles) {
-        int answer = 0;
         map = new int[m+1][n+1];
+        map[1][1] = 1;
         
         // 값 셋팅
-        init(m,n,puddles);
-        
-        // 여기서부터 논리식 시작
-        
-        return answer;
-    }
-
-    private static void init(int m, int n, int[][] puddles) {
-        // TODO Auto-generated method stub
-        
-        // map 배열에서 -1 : 웅덩이
         for (int i = 0; i < puddles.length; i++) {
             int x = puddles[i][0];
             int y = puddles[i][1];
             map[x][y] = -1;
         }
         
-        // 다음은 1가지 경우의 수를 셋팅한다
-        for (int i = 2; i < m; i++) {
-            if (map[i][1] < 0)
-                break;
-            else
-                map[i][1] = 1;
+        // 여기서부터 논리식 시작
+        // 문제에서 1,000,000,007을 나눈 나머지 값으로 나타내라는 의미는 효율성 때문이다
+        
+        for (int x = 1; x <= m; x++) {
+            for (int y = 1; y <= n; y++) {
+                if (map[x][y] < 0) {
+                    continue;
+                }
+                
+                if (map[x][y-1] >= 0 && map[x][y] >= 0)
+                    map[x][y] += map[x][y-1] % 1000000007;
+                if (map[x-1][y] >= 0 && map[x][y] >= 0)
+                    map[x][y] += map[x-1][y] % 1000000007;
+            }
+                
         }
         
-        for (int i = 2; i < n; i++) {
-            if (map[i][1] < 0)
-                break;
-            else
-                map[1][i] = 1;
-        }
+        return map[m][n] % 1000000007;
     }
-
-
-    
 }
