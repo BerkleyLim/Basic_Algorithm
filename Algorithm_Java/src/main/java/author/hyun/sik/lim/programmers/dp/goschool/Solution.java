@@ -21,100 +21,48 @@ public class Solution {
     // 최단 거리 갯수 구하는 알고리즘
     // 통계적 수학 알고리즘 방식으로 구하기
     // 참조 공식 https://bhsmath.tistory.com/154
-    // 순열 방식으로 풀기
-    // 캡슐화
-    static class PathList {
-        public PathList(int x, int y, int count) {
-            // TODO Auto-generated constructor stub
-            this.x=x;
-            this.y=y;
-            this.count=count;
-        }
-        int x;
-        int y;
-        int count;
-    }
-    static Queue<PathList> queue;
+    // 초등학생 방식으로 풀기
+    // 시간복잡도 : N^2
     static int[][] map;
-    static boolean isExit;
     
     public static int solution(int m, int n, int[][] puddles) {
         int answer = 0;
-        isExit = false;
         map = new int[m+1][n+1];
-        queue = new LinkedList<>();
         
-        // map 배열에서 -1 : 웅덩이, 2 : 도착점
-        for (int i = 0; i < puddles.length; i++) {
-            int x = puddles[i][0];
-            int y = puddles[i][1];
-            map[x][y] = 1;
-        }
-        map[m][n] = 2;
+        // 값 셋팅
+        init(m,n,puddles);
         
-        queue.offer(new PathList(1,1,0));
-        
-        // 최단경로 찾기 시작!
-        while(!queue.isEmpty()) {
-            int endPoint = 0;
-            int length = queue.size();
-            
-            for (int i = 0; i < length; i++) {
-                PathList p = queue.poll();
-                endPoint += down(m, n, p);
-                endPoint += right(m, n, p);
-            }
-            
-            // 경로 도착시!
-            if (isExit) {
-                answer = endPoint % 1000000007;
-                break;
-            }
-        }
-        
+        // 여기서부터 논리식 시작
         
         return answer;
     }
-    
-    private static int down (int m, int n, PathList p) {
-        int x = p.x;
-        int y = p.y + 1;
-        int count = p.count + 1;
+
+    private static void init(int m, int n, int[][] puddles) {
+        // TODO Auto-generated method stub
         
-        if (x == m && y == n)
-            isExit = true;
+        // map 배열에서 -1 : 웅덩이
+        for (int i = 0; i < puddles.length; i++) {
+            int x = puddles[i][0];
+            int y = puddles[i][1];
+            map[x][y] = -1;
+        }
         
-        if (!outWall(x, y,m,n)) {
-            queue.offer(new PathList(x, y, count));
-            return 1;
-        } else {
-            return 0;
+        // 다음은 1가지 경우의 수를 셋팅한다
+        for (int i = 2; i < m; i++) {
+            if (map[i][1] < 0)
+                break;
+            else
+                map[i][1] = 1;
+        }
+        
+        for (int i = 2; i < n; i++) {
+            if (map[i][1] < 0)
+                break;
+            else
+                map[1][i] = 1;
         }
     }
-    
-    private static int right (int m, int n, PathList p) {
-        int x = p.x + 1;
-        int y = p.y;
-        int count = p.count + 1;
-        
-        if (x == m && y == n)
-            isExit = true;
-        
-        if (!outWall(x, y,m,n)) {
-            queue.offer(new PathList(x, y, count));
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-    
-    private static boolean outWall(int x, int y, int m, int n) {
-        if (x > m || y > n)
-            return true;
-        else if (map[x][y] < 0)
-            return true;
-        else
-            return false;
-    }
+
+
     
 }

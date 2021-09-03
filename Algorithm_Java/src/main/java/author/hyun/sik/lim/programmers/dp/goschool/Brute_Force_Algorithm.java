@@ -20,6 +20,7 @@ public class Brute_Force_Algorithm {
     // 등굣길 문제
     // 최단 거리 갯수 구하는 알고리즘, Brute-force 방식 접근
     // 캡슐화
+    // 시간 복잡도 2^N
     static class PathList {
         public PathList(int x, int y, int count) {
             // TODO Auto-generated constructor stub
