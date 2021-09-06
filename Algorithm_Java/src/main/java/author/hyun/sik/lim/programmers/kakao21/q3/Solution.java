@@ -1,5 +1,10 @@
 package author.hyun.sik.lim.programmers.kakao21.q3;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Solution {
 
     public static void main(String[] args) {
@@ -40,144 +45,61 @@ public class Solution {
     // query(조건)(1~100,000) : "개발언어 and 직군 and 경력 and 소울푸드 and 점수" 형식의 문자열
     //
     // dp문제 (정렬 후 푸는 문제)
+    // 이분 탐색 요법으로 풀어보기
     
-    // 언어별 - 쪼개서 검사
-    private static int[] java;
-    private static int[] cpp;
-    private static int[] python;
-    private static int[] language;
+    // 참조 : https://girawhale.tistory.com/94
     
-    // 직군 여부 - 1 : front-end, 2 : back-end
-    private static int[] position;
-    
-    // 경력 구분 - 1 : junior, 2 : senior
-    private static int[] career;
-    
-    // 선호하는 소울 푸드 - 1 : chicken, 2 : pizza
-    private static int[] food;
-    
-    // 점수 - 각각 입력
-    private static int[] score;
     
     public static int[] solution(String[] info, String[] query) {
         int[] answer = new int[query.length];
-        java = new int[info.length];
-        cpp = new int[info.length];
-        python = new int[info.length];
-        language = new int[info.length];
-        position = new int[info.length];
-        career = new int[info.length];
-        food = new int[info.length];
-        score = new int[info.length];
+        Map<String, List<Integer>> information = new HashMap<>();
         
-        // 효율을 위해 언어별로 각각 배열로 나눈후 각 배열마다 대입.
-        int javaLength = 0;
-        int cppLength = 0;
-        int pythonLength = 0;
-        
-        for (int i = 0; i < info.length; i++) {
-            String[] string = info[i].split(" ");
+        // info 배열에 먼저 쪼개기
+        for (int z = 0; z < info.length; z++) {
+            String[] string = info[z].split(" ");
             
-            // 언어 입력
-            if (string[0].equals("java")) {
-                java[javaLength++] = i;
-            } else if (string[0].equals("cpp")) {
-                cpp[cppLength++] = i;
-            } else {
-                python[pythonLength++] = i;
+            int score = Integer.parseInt(string[4]);
+            
+            // 비트 연산을 통한 조건
+            for (int i = 0; i < (1 << 4); i++) {
+                String key = new String();
+                //System.out.println(i);
+                for (int x = 0; x < 4; x++) {
+                    if ((i & (1 << x)) > 0)
+                        key += string[x];
+                    //System.out.println((i & (1 << x)));
+                }
+                information.computeIfAbsent(key, s -> new ArrayList<>()).add(score);
             }
-            language[i] = i;
-            
-            // 직군 입력
-            if (string[1].equals("frontend")) {
-                position[i] = 1;
-            } else 
-                position[i] = 2;
-            
-            // 경력 입력
-            if (string[2].equals("junior"))
-                career[i] = 1;
-            else 
-                career[i] = 2;
-            
-            // 소울푸드
-            if (string[3].equals("chicken"))
-                food[i] = 1;
-            else
-                food[i] = 2;
-            
-            // 점수
-            score[i] = Integer.parseInt(string[4]);
+            //System.out.println();
         }
         
-        // 다음은 query의 대한 조건 출력
-        // query 구성 : "java and backend and junior and pizza 100"
-        //               0    1    2     3     4     5   6     7
+        List<Integer> empty = new ArrayList<>();
+        for (Map.Entry<String, List<Integer>> entry : information.entrySet())
+            entry.getValue().sort(null);
+
         for (int i = 0; i < query.length; i++) {
-            // query 조건문으로 순차적 수행
-            String[] string = query[i].split(" ");
-            int[] arr;
-            int length;
-            
-            // 1) 언어 query 검사
-            if (string[0].equals("java")) {
-                arr = java;
-                length = javaLength;
-            } else if (string[0].equals("cpp")) {
-                arr = cpp;
-                length = cppLength;
-            } else if (string[0].equals("python")) {
-                arr = python;
-                length = pythonLength;
-            } else {
-                arr = language;
-                length = info.length;
+            String[] split = query[i].replaceAll("-", "").split(" and | ");
+            String key = String.join("", split[0], split[1], split[2], split[3]);
+            int score = Integer.parseInt(split[4]);
+           
+            List<Integer> list = information.getOrDefault(key, empty);
+
+            int s = 0, e = list.size();
+
+            while (s < e) {
+                int mid = (s + e) / 2;
+
+                if (list.get(mid) < score) s = mid + 1;
+                else e = mid;
             }
-            
-            // 2) 직군, 경력, 푸드, 점수 검사
-            int count = 0;
-            for (int x = 0; x < length; x++) {
-                // 직군
-                if (string[2].equals("frontend")) {
-                    if (position[arr[x]] != 1) 
-                        break;
-                } else if (string[2].equals("backend")) {
-                    if (position[arr[x]] != 2) 
-                        break;
-                } else {
-                }
-                
-                // 경력
-                if (string[4].equals("junior")) {
-                    if (career[arr[x]] != 1) 
-                        break;
-                } else if (string[4].equals("senior")) {
-                    if (career[arr[x]] != 2) 
-                        break;
-                } else {
-                }
-                
-                // 푸드
-                if (string[6].equals("chicken")) {
-                    if (food[arr[x]] != 1) 
-                        break;
-                } else if (string[6].equals("pizza")) {
-                    if (food[arr[x]] != 2) 
-                        break;
-                } else {
-                }
-                
-                // 점수
-                if (Integer.parseInt(string[7]) <= score[arr[x]]) {
-                    count++;
-                } else {
-                    break;
-                }
-                
-            }
-            answer[i] = count;
+
+            answer[i] = list.size() - s;
         }
+        
         
         return answer;
     }
+
+
 }
