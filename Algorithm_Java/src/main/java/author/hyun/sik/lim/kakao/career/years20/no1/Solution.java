@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.kakao.career.years19.no1;
+package author.hyun.sik.lim.kakao.career.years20.no1;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

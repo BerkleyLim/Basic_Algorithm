@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.kakao.career.years19.no7;
+package author.hyun.sik.lim.kakao.career.years20.no7;
 
 import java.util.LinkedList;
 import java.util.Queue;
