@@ -1,11 +1,8 @@
 package author.hyun.sik.lim.backjoon.dfs.bfs.Q2468;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Main {
     // 안전 영역
@@ -18,16 +15,14 @@ public class Main {
         int N = sc.nextInt();
         
         int[][] boards = new int[N][N];
-//        int maxHeight = Integer.MIN_VALUE;
-//        int minHeight = Integer.MAX_VALUE;
-        Set<Integer> number = new HashSet<>();
+        int maxHeight = Integer.MIN_VALUE;
+//        Set<Integer> number = new HashSet<>();
         
         for (int i = 0; i < N; i++) {
             for (int d = 0; d < N; d++) {
                 boards[i][d] = sc.nextInt();
-//                maxHeight = Math.max(maxHeight, boards[i][d]);
-//                minHeight = Math.min(minHeight, boards[i][d]);
-                number.add(boards[i][d]);
+                maxHeight = Math.max(maxHeight, boards[i][d]);
+//                number.add(boards[i][d]);
             }
         }
         sc.close();
@@ -36,12 +31,12 @@ public class Main {
 //            
 //        }
         
-//        System.out.println(solution(N, boards, maxHeight, minHeight));
-        System.out.println(solution(N, boards, number));
+        System.out.println(solution(N, boards, maxHeight));
+//        System.out.println(solution(N, boards, number));
         
-//        Runtime.getRuntime().gc();
-//        long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-//        System.out.print(usedMemory + " bytes");
+        Runtime.getRuntime().gc();
+        long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        System.out.print(usedMemory + " bytes");
     }
 
     
@@ -54,37 +49,34 @@ public class Main {
             this.y = y;
         }
     }
-    static Queue<Info> queue;
-//    private static int solution(int N, int[][] boards, int maxHeight, int minHeight) {
-    private static int solution(int N, int[][] boards, Set<Integer> number) {
+    static boolean[][] visited;
+    private static int solution(int N, int[][] boards, int maxHeight) {
+//    private static int solution(int N, int[][] boards, Set<Integer> number) {
         // TODO Auto-generated method stub
-        System.out.println("run()");
         int answer = 0;
-        queue = new LinkedList<>();
+        
         
         // 각 영역별로 구하기
-//        int[] index = new int[number.size()];
-//        for (int i = minHeight; i <= maxHeight; i++) {
-        Iterator<Integer> iterater = number.iterator();
-        for (int index = 0; index < number.size() -1; index++) {
-            int i = iterater.next();
+        for (int i = 0; i < maxHeight; i++) {
+//        Iterator<Integer> iterater = number.iterator();
+//        for (int index = 0; index < number.size() -1; index++) {
+//            int i = iterater.next();
 //            System.out.println(i);
             int count = 0;
-            boolean[][] visited = new boolean[N][N];
+            visited = new boolean[N][N];
             
             for (int y = 0; y < N; y++) {
                 for (int x = 0; x < N; x++) {
-                    if (visited[y][x] || boards[y][x] <= i) {
-                        continue;
+                    if (boards[y][x] > i && !visited[y][x]) {
+                        bfs(i,boards,N,x,y);
+                        count++;
                     }
-                    queue.offer(new Info(x,y));
-                    System.out.print(" size : " + queue.size());
-                    bfs(i,boards,visited,N);
-                    count++;
-//                    System.out.print(count + " : " + x + " " + y + "  /  ");
+//                    System.out.print(count + " ");
                 }
+//                System.out.println();
             }
-            System.out.println();
+            
+//            System.out.println();
             answer = Math.max(answer, count) ;
             
         }
@@ -94,13 +86,16 @@ public class Main {
     
     static int[] dx = {1,0,-1,0};
     static int[] dy = {0,1,0,-1};
-    private static void bfs(int height, int[][] boards, boolean[][] visited, int N) {
+    private static void bfs(int height, int[][] boards, int N, int xx, int yy) {
         // TODO Auto-generated method stub
+        Queue<Info> queue = new LinkedList<>();
+        queue.offer(new Info(xx,yy));
+        visited[yy][xx] = true;
+        
         while(!queue.isEmpty()) {
             Info info = queue.poll();
             int startX = info.x;
             int startY = info.y;
-            visited[startY][startX] = true;
             
             for (int i = 0; i < dx.length; i++) {
                 int x = startX + dx[i];
@@ -110,8 +105,8 @@ public class Main {
                     continue;
                 }
                 
-//                visited[y][x] = true;
                 queue.offer(new Info(x,y));
+                visited[y][x] = true;
             }
         }
     }

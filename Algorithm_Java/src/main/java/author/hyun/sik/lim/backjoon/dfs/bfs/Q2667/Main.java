@@ -33,6 +33,10 @@ public class Main {
         for (int i : solution(N, boards)) {
             System.out.println(i);
         }
+        
+        Runtime.getRuntime().gc();
+        long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        System.out.print(usedMemory + " bytes");
     }
 
     static boolean visited[][];

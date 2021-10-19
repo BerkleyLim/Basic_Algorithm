@@ -23,6 +23,9 @@ public class Main {
         }
         
         System.out.println(solution(n,start,end,m,relation));
+        Runtime.getRuntime().gc();
+        long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        System.out.print(usedMemory + " bytes");
     }
 
     

@@ -1,4 +1,4 @@
-package author.hyun.sik.lim.backjoon.dfs.bfs.Q7569_not;
+package author.hyun.sik.lim.backjoon.dfs.bfs.Q7569;
 
 import java.util.LinkedList;
 import java.util.Queue;
