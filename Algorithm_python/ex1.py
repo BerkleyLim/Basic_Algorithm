@@ -1,4 +1,6 @@
-x = input('입력 :')
+# 문제 : xyz321 입력 시 실행 결고
+
+x = input('입력 : ')
 a = ['abg123', 'def456', 'ghi789']
 a.append(x)
 a.remove('def456')
